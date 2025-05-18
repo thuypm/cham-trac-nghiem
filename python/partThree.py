@@ -72,11 +72,7 @@ def draw_debug_circles_on_roi(roi_color, debug_circles):
     return debug_img
 
 
-def process_matrix_image(image_path, roi, binary_thresh=150):
-    """
-    Xử lý ảnh và nhận diện dãy số từ ma trận 12 hàng × 4 cột.
-    """
-    img = cv2.imread(image_path)
+def process_matrix_image(img, roi, debug = False):
     if img is None:
         print(f"Không thể đọc ảnh từ: {image_path}")
         return [], None
@@ -84,12 +80,28 @@ def process_matrix_image(image_path, roi, binary_thresh=150):
     x_min, y_min, x_max, y_max = roi
     roi_color = img[y_min:y_max, x_min:x_max]
     roi_gray = cv2.cvtColor(roi_color, cv2.COLOR_BGR2GRAY)
-
+   
     digits, debug_circles = find_darkest_circle_per_column(roi_gray)
-    debug_img = draw_debug_circles_on_roi(roi_color, debug_circles)
+    if(debug):
+        debug_img = draw_debug_circles_on_roi(roi_color, debug_circles)
 
-    return digits, debug_img
+        return digits, debug_img
+    return digits
+def processPartThree(img):
+    mapDigist = []
+    listRois = [
+         [37 , 1046, 161 , 1375],
+        [206 , 1046, 330 , 1375],
+        [374 , 1046, 497 , 1375],
+        [535 , 1046, 660 , 1375],
+        [700 , 1046, 830 , 1375],
+        [868 , 1046, 996 , 1375],
+    ]
 
+    for rois in listRois:
+        digits = process_matrix_image(img, rois)
+        mapDigist = mapDigist + digits
+    return mapDigist
 
 if __name__ == "__main__":
     image_path = "../images/khtn.jpg"

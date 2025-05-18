@@ -89,9 +89,8 @@ def warp_from_corners(image, corners, output_size=(1000, 1414)):
     warped = cv2.warpPerspective(image, matrix, output_size)
     return warped
 
-def cropAndRotate(image_path, output_path):
+def cropAndRotate(img, output_path):
     # Đọc ảnh
-    img = cv2.imread(image_path)
     if img is None:
         print(json.dumps({"error": "Không đọc được ảnh từ đường dẫn"}))
         return
