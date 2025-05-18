@@ -1,39 +1,12 @@
 const express = require("express");
-const path = require("path");
-const fs = require("fs");
-
 const app = express();
-const PORT = 3000;
+const examRouter = require("./routes/exam");
 
-const { execFile } = require("child_process");
+app.use(express.json()); // để đọc req.body dạng JSON
 
-app.get("/scan", async (req, res) => {
-  const imgDir = path.join(__dirname, "img");
-  const files = fs.readdirSync(imgDir);
-  const imageFile = files.find((f) => /\.(jpg|jpeg|png)$/i.test(f));
-  if (!imageFile) return res.status(404).json({ error: "No image found" });
+// Mount router
+app.use("/exam", examRouter);
 
-  const imgPath = path.join(imgDir, imageFile);
-  const outPath = "./images/aligned.jpg";
-
-  execFile(
-    "python",
-    ["./python/cropImage.py", imgPath, outPath],
-    (error, stdout, stderr) => {
-      if (error) {
-        return res.status(500).json({ error: stderr || error.message });
-      }
-      try {
-        console.log(stdout);
-        const result = JSON.parse(stdout);
-        res.json(result);
-      } catch (e) {
-        res.status(500).json({ error: "Lỗi khi đọc kết quả từ Python" });
-      }
-    }
-  );
+app.listen(3000, () => {
+  console.log("Server chạy tại http://localhost:3000");
 });
-
-app.listen(PORT, () =>
-  console.log(`Server running at http://localhost:${PORT}`)
-);

@@ -39,7 +39,6 @@ def processImage(imagebitmap, fileName = "/"):
         data["partTwo"] = partTwo
     if partThree:
         data["partThree"] = partThree
-    print(data)
     return data
 
 if __name__ == '__main__':
