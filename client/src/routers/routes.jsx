@@ -5,7 +5,8 @@
 // import Forbidden from 'pages/Error/403'
 // import NotFound from 'pages/Error/404'
 
-import Home from "pages/Home";
+import Exam from "pages/Exam";
+import Home from "pages/Home/Home";
 
 export const publicRoutes = [
   {
@@ -14,6 +15,21 @@ export const publicRoutes = [
     element: <Home />,
     label: "Không tìm thấy trang",
     icon: <></>,
+  },
+  {
+    key: "not-found",
+    path: "/exam",
+    element: <Home />,
+    children: [
+      {
+        key: "detail-exam",
+        path: ":id",
+        element: <Exam />,
+        label: "Chi tiết bài kiểm tra",
+        hiddenFromMenu: true,
+        icon: "",
+      },
+    ],
   },
   // {
   //   key: 'forbidden',

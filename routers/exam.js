@@ -2,7 +2,11 @@ const express = require("express");
 const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
-const { createExam } = require("../services/examServices");
+const {
+  createExam,
+  getAllExams,
+  getExamById,
+} = require("../services/examServices");
 
 const router = express.Router();
 
@@ -27,29 +31,41 @@ const upload = multer({
     else cb(new Error("Chỉ chấp nhận file PDF"));
   },
 });
-router.post("/create-exam", async (req, res) => {
+router.post("/", async (req, res) => {
   const {
     name,
     classId,
     numOfPartOne,
     scorePartOne,
-    numOfPartTWo,
+    numOfPartTwo,
     scorePartTwo,
     scorePartThree,
     answers,
   } = req.body;
-  return await createExam({
+  const data = await createExam({
     name,
     classId,
     numOfPartOne,
     scorePartOne,
-    numOfPartTWo,
+    numOfPartTwo,
     scorePartTwo,
     scorePartThree,
     answers,
   });
+  res.json(data);
 });
-
+router.get("/", async (req, res) => {
+  const data = await getAllExams();
+  res.json(data);
+});
+router.get("/:id", async (req, res) => {
+  const { id } = req.params;
+  const data = await getExamById(id); // Gọi hàm đúng theo id
+  if (!data) {
+    return res.status(404).json({ message: "Exam not found" });
+  }
+  res.json(data);
+});
 // Route POST /exam
 router.post("/upload-exam", upload.single("file"), (req, res) => {
   const { _id, classId } = req.body;

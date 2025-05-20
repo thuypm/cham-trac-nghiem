@@ -1,8 +1,8 @@
 const Exam = require("../models/exam.js");
 
 async function createExam(data) {
-  const exam = new Exam(data);
-  return await exam.save();
+  const exam = await Exam.create(data);
+  return exam;
 }
 
 async function getExamById(id) {
