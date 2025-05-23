@@ -39,7 +39,9 @@ const SidebarMenu = () => {
     },
   ];
 
-  return <PanelMenu model={items} style={{ width: "250px" }} />;
+  return (
+    <PanelMenu model={items} style={{ width: "250px", flex: "0 0 auto" }} />
+  );
 };
 
 export default SidebarMenu;

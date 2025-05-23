@@ -6,8 +6,9 @@ const {
   createExam,
   getAllExams,
   getExamById,
+  readExcelFile,
 } = require("../services/examServices");
-
+const { ObjectId } = require("mongodb");
 const router = express.Router();
 
 // Cấu hình multer để lưu file PDF vào thư mục 'uploads'
@@ -25,11 +26,11 @@ const storage = multer.diskStorage({
 
 const upload = multer({
   storage: storage,
-  fileFilter: (req, file, cb) => {
-    // Chỉ chấp nhận file PDF
-    if (file.mimetype === "application/pdf") cb(null, true);
-    else cb(new Error("Chỉ chấp nhận file PDF"));
-  },
+  // fileFilter: (req, file, cb) => {
+  //   // Chỉ chấp nhận file PDF
+  //   if (file.mimetype === "application/pdf") cb(null, true);
+  //   else cb(new Error("Chỉ chấp nhận file PDF"));
+  // },
 });
 router.post("/", async (req, res) => {
   const {
@@ -72,6 +73,32 @@ router.post("/upload-exam", upload.single("file"), (req, res) => {
   const file = req.file;
   if (!_id || !classId || !file) {
     return res.status(400).json({ error: "Missing field" });
+  }
+});
+
+router.post("/upload-answer", upload.single("file"), async (req, res) => {
+  const { examId, classId } = req.body;
+  const file = req.file;
+
+  // if (!_id || !classId || !file) {
+  //   return res.status(400).json({ error: "Missing field" });
+  // }
+
+  try {
+    const data = await readExcelFile(file.path, new ObjectId(examId));
+
+    // Xóa file sau khi đọc xong
+    fs.unlinkSync(file.path);
+
+    return res.json({
+      success: true,
+      examId: examId,
+      classId,
+      data,
+    });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ error: "Failed to read Excel file" });
   }
 });
 

@@ -9,12 +9,18 @@ const examSchema = new mongoose.Schema({
   scorePartTwo: Array,
   numOfPartThree: Number,
   scorePartThree: Number,
-  answers: Array,
   assignments: Array,
   createdAt: {
     type: Date,
     default: Date.now,
   },
 });
+examSchema.virtual("answerList", {
+  ref: "Answer",
+  localField: "_id",
+  foreignField: "examId",
+});
 
+examSchema.set("toObject", { virtuals: true });
+examSchema.set("toJSON", { virtuals: true });
 module.exports = mongoose.model("Exam", examSchema);
