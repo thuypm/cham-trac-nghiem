@@ -7,6 +7,7 @@ const {
   getAllExams,
   getExamById,
   readExcelFile,
+  handleScoring,
 } = require("../services/examServices");
 const { ObjectId } = require("mongodb");
 const router = express.Router();
@@ -66,14 +67,6 @@ router.get("/:id", async (req, res) => {
     return res.status(404).json({ message: "Exam not found" });
   }
   res.json(data);
-});
-// Route POST /exam
-router.post("/upload-exam", upload.single("file"), (req, res) => {
-  const { _id, classId } = req.body;
-  const file = req.file;
-  if (!_id || !classId || !file) {
-    return res.status(400).json({ error: "Missing field" });
-  }
 });
 
 router.post("/upload-answer", upload.single("file"), async (req, res) => {

@@ -15,25 +15,23 @@ function ExamContent() {
       setCurrentExam(res);
     });
   }, [id, setCurrentExam]);
-  const [activeIndex, setActiveIndex] = useState(1);
+  const [activeIndex, setActiveIndex] = useState(0);
 
   return (
     <div className="w-full h-full p-2 overflow-y-auto">
       {currentExam ? (
         <>
-          <div className="overflow-y-auto">
-            <TabView
-              className="overflow-y-auto"
-              activeIndex={activeIndex}
-              onTabChange={(e) => setActiveIndex(e.index)}>
-              <TabPanel header="Bài làm">
-                <AssignmentScreen />
-              </TabPanel>
-              <TabPanel header="Đáp án" contentClassName="overflow-y-auto">
-                <AnswerTab />
-              </TabPanel>
-            </TabView>
-          </div>
+          <TabView
+            className="overflow-y-auto h-full flex flex-column"
+            activeIndex={activeIndex}
+            onTabChange={(e) => setActiveIndex(e.index)}>
+            <TabPanel header="Bài làm">
+              <AssignmentScreen />
+            </TabPanel>
+            <TabPanel header="Đáp án" contentClassName="overflow-y-auto">
+              <AnswerTab />
+            </TabPanel>
+          </TabView>
         </>
       ) : (
         <ProgressSpinner />

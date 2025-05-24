@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 
 const assignmentSchema = new mongoose.Schema({
-  _id: String, // bạn có thể thay bằng ObjectId nếu cần
   exactStudentId: String,
   exactKey: String,
   score: Number,
@@ -13,10 +12,11 @@ const assignmentSchema = new mongoose.Schema({
   partOne: Array,
   partTwo: Array,
   partThree: Array,
+  examId: { type: mongoose.Schema.Types.ObjectId, ref: "Exam", required: true },
   createdAt: {
     type: Date,
     default: Date.now,
   },
 });
 
-module.exports = mongoose.model("Assignment", assignmentSchema);
+module.exports = mongoose.model("assignment", assignmentSchema);

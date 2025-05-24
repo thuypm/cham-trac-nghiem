@@ -1,4 +1,5 @@
 
+import os
 import cv2
 import sys
 import matplotlib.pyplot as plt
@@ -12,9 +13,11 @@ import numpy as np
 import cv2
 import random
 
-def processImage(imagebitmap, fileName = "/"):
+def processImage(imagebitmap, fileId = "/", currentExamId = ''):
     num = random.randint(1, 100)
-    output_path = 'handle/' + str(num) +'.jpg'
+    output_dir = 'images/' + currentExamId
+    os.makedirs(output_dir, exist_ok=True)  # Tạo nếu chưa có
+    output_path = os.path.join(output_dir, fileId + '.jpg')
     img = np.frombuffer(imagebitmap.samples, dtype=np.uint8).reshape((imagebitmap.height, imagebitmap.width, imagebitmap.n))
     if imagebitmap.n == 4:
         img = cv2.cvtColor(img, cv2.COLOR_RGBA2BGR)

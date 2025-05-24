@@ -2,3 +2,12 @@ a {
   text-decoration: none;
   color: inherit;
 }
+.p-tabview-panels,
+.p-tabview-panel {
+  overflow-y: auto;
+  flex: 1 1 auto;
+}
+.p-tabview-panels {
+  display: flex;
+  flex-direction: column;
+}

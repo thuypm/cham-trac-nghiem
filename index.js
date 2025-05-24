@@ -1,9 +1,12 @@
 const express = require("express");
 const app = express();
 const examRouter = require("./routers/exam");
+const assignmentRouter = require("./routers/assigment");
 const cors = require("cors");
 const connectDB = require("./services/db");
+const path = require("path");
 connectDB();
+
 // CORS config
 app.use(
   cors({
@@ -16,7 +19,10 @@ app.use(express.json()); // để đọc req.body dạng JSON
 
 // Mount router
 app.use("/api/exam", examRouter);
-
+app.use("/api/assignment", assignmentRouter);
+const imagesPath = path.join(process.cwd(), "images");
+// Cấu hình route /images/* trỏ đến thư mục images
+app.use("/images", express.static(imagesPath));
 app.listen(5000, () => {
   console.log("Server chạy tại http://localhost:5000");
 });
