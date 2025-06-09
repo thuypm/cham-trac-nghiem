@@ -100,7 +100,7 @@ def processPartThree(img):
 
     for rois in listRois:
         digits = process_matrix_image(img, rois)
-        mapDigist = mapDigist + digits
+        mapDigist.append(digits)
     return mapDigist
 
 if __name__ == "__main__":

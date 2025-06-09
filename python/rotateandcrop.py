@@ -74,7 +74,7 @@ def sort_corners(corner_points):
     ordered[3] = pts[np.argmax(diff)]     # Bottom-left có hiệu lớn nhất
     return ordered
 
-def warp_from_corners(image, corners, output_size=(1000, 1414)):
+def warp_from_corners(image, corners, output_size=(1000, 1500)):
     """
     Áp dụng phép biến đổi phối cảnh dựa trên 4 góc đã sắp xếp.
     output_size: kích thước ảnh đầu ra (width, height)

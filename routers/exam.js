@@ -42,6 +42,7 @@ router.post("/", async (req, res) => {
     numOfPartTwo,
     scorePartTwo,
     scorePartThree,
+    numOfPartThree,
     answers,
   } = req.body;
   const data = await createExam({
